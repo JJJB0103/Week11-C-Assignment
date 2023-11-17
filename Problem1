@@ -1,0 +1,72 @@
+//LolCha.h
+
+#pragma once
+#include <fstream>
+using namespace std;
+class LoL {
+public:
+	LoL() {};
+	int N1, N2, m;
+	float a, b, x0, dx;
+	ofstream dd;
+	void f0(string);;
+	void f1();
+	void f2();
+};
+
+//LolCha.cpp
+
+#include "LoLCha.h"
+void LoL::f0(string ss) {
+	dd.open(ss, ios::binary | ios::out);
+	dd.write((char*)&N1, sizeof(int));
+	dd.write((char*)&N2, sizeof(int));
+	dd.write((char*)&a, sizeof(float));
+	dd.write((char*)&b, sizeof(float));
+	dd.write((char*)&dx, sizeof(float));
+	dd.write((char*)&m, sizeof(int));
+}
+void LoL::f1() {
+	int* f1d;
+	f1d = new int[N2 - N1 + 1];
+	for (int i = N1; i <= N2; i++) {
+		f1d[i - N1] = i * (i + 1) / 2;
+	}
+	dd.write((char*)f1d, sizeof(int) * (N2 - N1 + 1));
+	delete f1d;
+}
+void LoL::f2() {
+	float* f2d, x;
+	x = x0;
+	f2d = new float[m];
+	for (int i = 0; i < m; i++, x += dx) {
+		f2d[i] = a * x + b;
+	}
+	dd.write((char*)f2d, sizeof(int) * m);
+	delete f2d;
+	dd.close();
+}
+
+//main.cpp
+
+#include <iostream>
+#include <fstream>
+#include "LoLCha.h"
+using namespace std;
+int main() {
+	LoL l1, l2, l3, l4;
+	l1.N1 = 5;l1.N2 = 100;
+	l1.a = 2;l1.b = 3;
+	l1.x0 = -5;l1.dx = 0.1;
+	l1.m = 10;
+
+	l2.N1 = 5;  l2.N2 = 100;
+	l2.a = 2;   l2.b = 3;
+	l2.x0 = -5; l2.dx = 0.1;
+	l2.m = 10;
+	l1.f0("alkali.dat");
+	l1.f1();  l1.f2();
+	l1.f0("amumu.dat");
+	l2.f1();   l2.f2();
+	return 10;
+}
