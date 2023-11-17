@@ -1,1 +1,85 @@
+//LoLcha.h
+#pragma once
+#include <fstream>
+using namespace std;
+
+class LoL {
+public:
+	LoL() {};
+	LoL(int n1, int n2, float A, float B, float X0, float DX, int M, string SS) {
+		N1 = n1;N2 = n2;a = A;b = B;x0 = X0;dx = DX;m = M;ss = SS;
+	}
+	~LoL();
+	ofstream dd;
+	int N1, N2, m;
+	float a, b, x0, dx;
+	string ss;
+	void f0();
+	void f1();
+	void f2();
+};
+
+
+
+//LoLcha.cpp
+#include "LoLcha.h"
+void LoL::f0() {
+	dd.open(ss, ios::binary | ios::out);
+	dd.write((char*)&N1, sizeof(int));
+	dd.write((char*)&N2, sizeof(int));
+	dd.write((char*)&a, sizeof(float));
+	dd.write((char*)&b, sizeof(float));
+	dd.write((char*)&x0, sizeof(float));
+	dd.write((char*)&dx, sizeof(float));
+	dd.write((char*)&m, sizeof(int));
+}
+
+void LoL::f1() {
+	int* f1d;
+	f1d = new int[N2 - N1 + 1];
+	for (int i = N1; i <= N2; i++) {
+		f1d[i - N1] = i * (i + 1) / 2;
+	}
+	dd.write((char*)f1d, sizeof(int) * (N2 - N1 + 1));
+	delete f1d;
+}
+void LoL::f2() {
+	float* f2d, x;
+	x = x0;
+	f2d = new float[m];
+	for (int i = 0; i < m; i++, x += dx) {
+		f2d[i] = a * x + b;
+	}
+	dd.write((char*)f2d, sizeof(int) * m);
+	delete f2d;
+	dd.close();
+}
+
+
+
+//main.cpp
+#include <iostream>
+#include <fstream>
+#include "LoLcha.h"
+using namespace std;
+
+int main() {
+	LoL* champion[4];
+	champion[0] = new LoL(5, 10, 2, 3.1, -5.1, 0.1, 10, "akali2.dat");
+
+	champion[1] = new LoL(6, 100, -6.5, 4.1, 100, 10.2, 12, "amumu2.dat");
+
+	champion[2] = new LoL(7, 100, 6.6, 1.42, 1.5, 0.08, 35, "zed2.dat");
+
+	champion[3] = new LoL(8, 100, 5.21, 31.3, 22.1, 2.092, 85, "atrox2.dat");
+
+	for (int i = 0; i < 4;i++) {
+		champion[i]->f0();
+		champion[i]->f1();
+		champion[i]->f2();
+
+	}
+
+	return 0;
+}
 
