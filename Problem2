@@ -82,11 +82,11 @@ int main() {
 	champion[1]->f1("amumu.dat");
 	champion[1]->f2("amumu.dat");
 
-	champion[2]->f0("annie.dat");
+	champion[2]->f0("zed.dat");
 	champion[2]->f1("zed.dat");
 	champion[2]->f2("zed.dat");
 
-	champion[3]->f0("ashe.dat");
+	champion[3]->f0("atrox.dat");
 	champion[3]->f1("atrox.dat");
 	champion[3]->f2("atrox.dat");
 
